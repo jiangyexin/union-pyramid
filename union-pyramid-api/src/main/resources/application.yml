@@ -1,0 +1,17 @@
+# spring.cache.cache-names 缓存key逗号分隔
+logging:
+  config: classpath:logback-spring.xml
+
+spring:
+  profiles:
+    active: dev
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+server:
+  tomcat:
+    accesslog:
+      buffered: true
+      directory: /data/logs/tomcat
+      enabled: true

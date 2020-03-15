@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+  <appender name="ERROR_DAILY_ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>/data/logs/union-pyramid-api/union-pyramid-api-error.log</file>
+    <encoder>
+      <pattern>[%-5p] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] [%C{1}:%M:%L] %m%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>ERROR</level>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>/data/logs/union-pyramid-api/union-pyramid-api-error.log.%d{yyyy-MM-dd}</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+
+  <appender name="ASYNC_ERROR_DAILY_ROLLING_FILE" class="ch.qos.logback.classic.AsyncAppender">
+    <discardingThreshold>0</discardingThreshold>
+    <queueSize>512</queueSize>
+    <includeCallerData>true</includeCallerData>
+    <neverBlock>true</neverBlock>
+    <appender-ref ref="ERROR_DAILY_ROLLING_FILE"/>
+  </appender>
+
+  <appender name="DAILY_ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>/data/logs/union-pyramid-api/union-pyramid-api.log</file>
+    <encoder>
+      <pattern>[%-5p] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] [%C{1}:%M:%L] %m%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>/data/logs/union-pyramid-api/union-pyramid-api.log.%d{yyyy-MM-dd_HH}</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+
+  <appender name="ASYNC_DAILY_ROLLING_FILE" class="ch.qos.logback.classic.AsyncAppender">
+    <discardingThreshold>0</discardingThreshold>
+    <queueSize>512</queueSize>
+    <includeCallerData>true</includeCallerData>
+    <neverBlock>true</neverBlock>
+    <appender-ref ref="DAILY_ROLLING_FILE"/>
+  </appender>
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%highlight([%-5p]) [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] [%C{1}:%M:%L] %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="DAILY_APP_ACCESS_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>/data/logs/union-pyramid-api/httptrace.log</file>
+    <encoder>
+      <pattern>[%d{yyyy-MM-dd HH:mm:ss}] %m%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>/data/logs/union-pyramid-api/httptrace.log.%d{yyyy-MM-dd}</fileNamePattern>
+      <!-- keep 15 days' worth of history -->
+      <maxHistory>15</maxHistory>
+    </rollingPolicy>
+  </appender>
+
+  <appender name="APP_ACCESS_LOG_FILE" class="ch.qos.logback.classic.AsyncAppender">
+    <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
+    <!--<discardingThreshold >0</discardingThreshold>-->
+    <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
+    <queueSize>640</queueSize>
+    <includeCallerData>true</includeCallerData>
+    <neverBlock>true</neverBlock>
+    <!-- 添加附加的appender,最多只能添加一个 -->
+    <appender-ref ref="DAILY_APP_ACCESS_LOG_FILE"/>
+  </appender>
+
+  <logger name="APP_ACCESS_LOG" level="INFO" additivity="false">
+    <appender-ref ref="APP_ACCESS_LOG_FILE"/>
+  </logger>
+
+  <springProfile name="prod">
+    <root level="INFO">
+      <appender-ref ref="ASYNC_DAILY_ROLLING_FILE"/>
+      <appender-ref ref="ASYNC_ERROR_DAILY_ROLLING_FILE"/>
+    </root>
+  </springProfile>
+
+  <springProfile name="test">
+    <root level="DEBUG">
+      <appender-ref ref="ASYNC_DAILY_ROLLING_FILE"/>
+      <appender-ref ref="ASYNC_ERROR_DAILY_ROLLING_FILE"/>
+    </root>
+  </springProfile>
+
+  <springProfile name="dev">
+    <root level="DEBUG">
+      <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="ASYNC_DAILY_ROLLING_FILE"/>
+      <appender-ref ref="ASYNC_ERROR_DAILY_ROLLING_FILE"/>
+    </root>
+  </springProfile>
+
+</configuration>

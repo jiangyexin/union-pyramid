@@ -1,0 +1,21 @@
+# spring.datasource.url username password增加数据库配置
+# spring.cache.spec 注意策略配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      auto-commit: true
+      connection-test-query: SELECT 1
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 20
+      minimum-idle: 10
+      pool-name: DataHikariCP
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://
+    username:
+    password:
+
+server:
+  port: 8080
