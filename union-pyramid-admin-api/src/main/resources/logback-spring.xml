@@ -3,7 +3,7 @@
 <configuration>
 
   <appender name="ERROR_DAILY_ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>/data/logs/union-pyramid-admin-api/union-pyramid-admin-api-error.log</file>
+    <file>~/data/logs/union-pyramid-admin-api/union-pyramid-admin-api-error.log</file>
     <encoder>
       <pattern>[%-5p] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] [%C{1}:%M:%L] %m%n</pattern>
     </encoder>
@@ -11,7 +11,7 @@
       <level>ERROR</level>
     </filter>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>/data/logs/union-pyramid-admin-api/union-pyramid-admin-api-error.log.%d{yyyy-MM-dd}</fileNamePattern>
+      <fileNamePattern>~/data/logs/union-pyramid-admin-api/union-pyramid-admin-api-error.log.%d{yyyy-MM-dd}</fileNamePattern>
     </rollingPolicy>
   </appender>
 
@@ -24,7 +24,7 @@
   </appender>
 
   <appender name="DAILY_ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>/data/logs/union-pyramid-admin-api/union-pyramid-admin-api.log</file>
+    <file>~/data/logs/union-pyramid-admin-api/union-pyramid-admin-api.log</file>
     <encoder>
       <pattern>[%-5p] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] [%C{1}:%M:%L] %m%n</pattern>
     </encoder>
@@ -32,7 +32,7 @@
       <level>INFO</level>
     </filter>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>/data/logs/union-pyramid-admin-api/union-pyramid-admin-api.log.%d{yyyy-MM-dd_HH}</fileNamePattern>
+      <fileNamePattern>~/data/logs/union-pyramid-admin-api/union-pyramid-admin-api.log.%d{yyyy-MM-dd_HH}</fileNamePattern>
     </rollingPolicy>
   </appender>
 
